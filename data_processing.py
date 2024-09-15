@@ -20,11 +20,11 @@ def ReadData(path, startFolder, endFolder, field):
 
   return main_dataframe
 
-def CheckLabeld(data, labelCheck):
-  data["label"] = data["label"].astype(str)
+def CheckLabel(data, labelCheck):
+  data["label"] = data["label"].apply(str)
 
-  if data["label"].str.contains(str(label)).any():
-    return data[data["label"].str.contains(str(label))]
+  if data["label"].str.contains(str(labelCheck)).any():
+    return data[data["label"].str.contains(str(labelCheck))]
   else:
     print("no label")
     return None
