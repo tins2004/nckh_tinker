@@ -49,6 +49,8 @@ def FindLabel(x_test):
   count_label_2 = 0
   count_label_3 = 0
   count_label_4 = 0
+
+  predictVector = np.array([])
   
   for i in range(len(x_test)):
     data_test = x_test[i]
@@ -56,6 +58,8 @@ def FindLabel(x_test):
 
     result = run_inference(data_test)
     max_value, max_index = max(enumerate(result[0]), key=lambda x: x[1])
+
+    predictVector = np.append(predictVector, max_value)
 
     if max_value == 0:
       count_label_0 = count_label_0 + 1
@@ -82,3 +86,36 @@ def FindLabel(x_test):
 
   print("count_label_4")
   print(count_label_4)
+
+  print(predictVector)
+  
+  return predictVector
+
+def Prediction(x_test):
+  predictVector = np.array([])
+  
+  for i in range(len(x_test)):
+    data_test = x_test[i]
+    data_test = data_test.reshape((1, x_test.shape[1], x_test.shape[2], x_test.shape[3]))
+
+    result = run_inference(data_test)
+    max_value, max_index = max(enumerate(result[0]), key=lambda x: x[1])
+
+    if len(predictVector) >= 20:
+      predictVector = np.delete(predictVector, 0)
+
+    predictVector = np.append(predictVector, max_value)
+
+    print()
+    print(predictVector)
+
+    if len(predictVector) >= 5:
+      if np.all(predictVector[-5:] == 0):
+        # return False
+        print("Đuối")
+
+  return True
+
+  
+
+  
